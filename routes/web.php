@@ -1,8 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\UserController;
 /*
+| Jeffrey Bolk
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
@@ -13,6 +14,25 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Home or login route
 Route::get('/', function () {
-    return view('welcome');
+    $user = auth()->user()?->name;
+    return view('home', ["user" => $user]);
 });
+
+// Register route
+Route::get('/register', function () {
+    return view('register');
+});
+Route::post("/registerUser", [UserController::class, "registerUser"]);
+
+// Login and logout routes
+Route::post("/login", [UserController::class, "login"]);
+Route::post("/logout", [UserController::class, "logout"]);
+
+// Page 1 route
+Route::get('/page1', function () {
+    $user = auth()->user()?->name;
+    return view('page1', ["user" => $user]);
+});
+
